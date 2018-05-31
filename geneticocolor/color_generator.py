@@ -177,7 +177,7 @@ def generate(x, y, points_classes, verbose=False, return_fitness_solution = Fals
         top_fitness = objective(geom_distances, points_classes, counter_classes, top[0])
 
         if verbose:
-            print "Generation:", gen, "Best fitness:", top_fitness
+            print ("Generation:", gen, "Best fitness:", top_fitness)
 
         maxims.append(top_fitness)
         best_indivs.append(top[0])
