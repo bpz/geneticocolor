@@ -1,6 +1,4 @@
 import math
-import numpy as np
-from random import random
 """
 Color conversion from RGB/sRGB to oRGB and vice versa.
 Random RGB/oRGB generation
@@ -11,8 +9,8 @@ class Converter:
     _matrix_to_LCC = 0.0
     _matrix_to_sRGB = 0.0
     def __init__(self):
-        self._matrix_to_LCC = np.matrix([[0.2990, 0.5870, 0.1140],[0.5, 0.5, -1.0],[0.866, -0.866, 0]])
-        self._matrix_to_sRGB = np.matrix([[1.0, 0.1140, 0.7436],[1.0, 0.1140, -0.4111],[1.0, -0.886, 0.1663]])
+        self._matrix_to_LCC = numpy.matrix([[0.2990, 0.5870, 0.1140],[0.5, 0.5, -1.0],[0.866, -0.866, 0]])
+        self._matrix_to_sRGB = numpy.matrix([[1.0, 0.1140, 0.7436],[1.0, 0.1140, -0.4111],[1.0, -0.886, 0.1663]])
 
     def sRGB_to_RGB(self,sR,sG,sB):
         sR = abs(sR)
@@ -40,29 +38,29 @@ class Converter:
         return self._LCC_to_sRGB(L,C1,C2)
 
     def _sRGB_to_LCC(self,R,G,B):
-        RGB = np.matrix([[R],[G],[B]])
+        RGB = numpy.matrix([[R],[G],[B]])
         LCC = self._matrix_to_LCC * RGB;
-        LCC = np.array(LCC.reshape(3,))[0]
+        LCC = numpy.array(LCC.reshape(3,))[0]
         return [LCC[0], LCC[1], LCC[2]]
 
     def _LCC_to_sRGB(self,L,C1,C2):
-        LCC = np.matrix([[L],[C1],[C2]])
+        LCC = numpy.matrix([[L],[C1],[C2]])
         sRGB = self._matrix_to_sRGB * LCC;
-        sRGB = np.array(sRGB.reshape(3,))[0]
+        sRGB = numpy.array(sRGB.reshape(3,))[0]
         return [sRGB[0], sRGB[1], sRGB[2]]
 
     def _LCC_to_LCYBCRG(self,L,C1,C2):
         a = self._getAngleLCYBCRG(C1, C2);
         R = self._rotationMatrix(a)
-        CC = R * np.matrix([[C1],[C2]])
-        CC = np.array(CC.reshape(2,))[0]
+        CC = R * numpy.matrix([[C1],[C2]])
+        CC = numpy.array(CC.reshape(2,))[0]
         return [L, CC[0], CC[1]]
 
     def _LCYBCRG_to_LCC(self,L,CYB,CRG):
         a = self._getAngleLCC(CYB,CRG)
         R = self._rotationMatrix(a)
-        CC = R * np.matrix([[CYB],[CRG]])
-        CC = np.array(CC.reshape(2,))[0]
+        CC = R * numpy.matrix([[CYB],[CRG]])
+        CC = numpy.array(CC.reshape(2,))[0]
         return [L, CC[0], CC[1]]
 
     def _getAngleLCYBCRG(self,C1,C2):
@@ -100,7 +98,7 @@ class Converter:
         return t
 
     def _rotationMatrix(self, a):
-        return np.matrix([[math.cos(a), -math.sin(a)],
+        return numpy.matrix([[math.cos(a), -math.sin(a)],
             [math.sin(a), math.cos(a)]])
 
 converter = Converter()

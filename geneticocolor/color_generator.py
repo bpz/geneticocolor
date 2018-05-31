@@ -1,7 +1,5 @@
 from deap import creator, base, tools, algorithms
 from collections import OrderedDict, Counter
-import numpy
-from random import random, randint
 from oRGB import RGB_to_oRGB, oRGB_to_RGB, randcolor_RGB, randcolor_oRGB
 from time import time
 
