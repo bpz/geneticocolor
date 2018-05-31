@@ -1,5 +1,3 @@
-# Example Package
+# Genetic Opposite Color
 
-This is a simple example package. You can use
-[Github-flavored Markdown](http://https://guides.github.com/features/mastering-markdown/)
-to write your content.
+Long description will appear soon
