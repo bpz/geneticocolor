@@ -1,7 +1,9 @@
 from deap import creator, base, tools, algorithms
 from collections import OrderedDict, Counter
-from oRGB import RGB_to_oRGB, oRGB_to_RGB, randcolor_RGB, randcolor_oRGB
+from geneticocolor.oRGB import RGB_to_oRGB, oRGB_to_RGB, randcolor_RGB, randcolor_oRGB
+from random import random, randint
 from time import time
+import numpy
 
 def _centeroid(pointArray):
     length = pointArray.shape[0]
@@ -111,7 +113,8 @@ def generate(x, y, points_classes, verbose=False, return_fitness_solution = Fals
     return_evolution_data=False, NGEN=None):
     classes = list(OrderedDict.fromkeys(points_classes))
     points_classes = numpy.array([classes.index(i) for i in points_classes])
-    points = numpy.array(zip(x,y))
+    points = numpy.array(list(zip(x,y)))
+
     counter_classes = Counter(points_classes)
 
     # Number of points and number of classses

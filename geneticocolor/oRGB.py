@@ -1,4 +1,7 @@
 import math
+import numpy
+import random
+
 """
 Color conversion from RGB/sRGB to oRGB and vice versa.
 Random RGB/oRGB generation
@@ -122,9 +125,10 @@ def oRGB_to_sRGB(L,CYB,CRG):
     return converter.oRGB_to_sRGB(L,CYB,CRG)
 
 def randcolor_RGB():
-    R = random()
-    G = random()
-    B = random()
+    import random
+    R = random.random()
+    G = random.random()
+    B = random.random()
     return[R,G,B]
 
 def randcolor_oRGB():

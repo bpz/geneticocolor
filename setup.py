@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="geneticocolor",
-    version="0.0.3",
+    version="0.0.7",
     author="Beatriz Hernandez Perez",
     author_email="beatriz.hpz@gmail.com",
     description="Package for genetic generation of opposite colors for 2D point graphs",
