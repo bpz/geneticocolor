@@ -5,24 +5,38 @@ from random import random, randint
 from time import time
 import numpy
 
+"""
+Esto es un comentario de prueba
+"""
+
 def _centeroid(pointArray):
     length = pointArray.shape[0]
     sum_x = numpy.sum(pointArray[:, 0])
     sum_y = numpy.sum(pointArray[:, 1])
-    res = numpy.array([sum_x, sum_y])
+    res = numpy.array([sum_x/length, sum_y/length])
     return res
 
 def _distances_centroid(N, K, points, points_classes):
     geom_distances = numpy.zeros([K,K])
     centroids = numpy.zeros([K,2])
+    std_d = [0] * K
     for i in range (0, K):
         points_i = [points[index] for index in range(0,N) if points_classes[index] == i]
         centroids[i] = _centeroid(numpy.array(points_i))
+        std_d[i] = numpy.std(numpy.array(points_i))
+    print (std_d)
     for i in range (0, K):
         j = i + 1
         while (j < K):
-            geom_distances[i][j] = numpy.linalg.norm(centroids[i] - centroids[j])
-            geom_distances[j][i] = geom_distances[i][j]
+            d = numpy.linalg.norm(centroids[i] - centroids[j])
+            print ("d original", d)
+            e = d -(std_d[i] + std_d[j])
+            if e < 0:
+                e = 0
+            print ("d cambiada", e)
+            print (d, "\n")
+            geom_distances[i][j] = d
+            geom_distances[j][i] = d
             j += 1
     return geom_distances
 
@@ -70,7 +84,6 @@ def _objective_norm(geom_distances, points_classes, counter_classes, indiv):
             if geom_distances[i][j] != 0:
                 if (color_distances[ki][kj] == 0):
                     color_distances[ki][kj] = numpy.linalg.norm(numpy.array(indiv[ki]) - numpy.array(indiv[kj]))
-                    # color_distances[kj][ki] = color_distances[ki][kj]
                 resi += (color_distances[ki][kj] / geom_distances[i][j]) / counter_classes[kj]
             j += 1
         res += resi / counter_classes[ki]
@@ -80,13 +93,12 @@ def _objective_cent(geom_distances, points_classes, counter_classes, indiv):
     K = len(indiv)
     color_distances = numpy.zeros([K, K])
     res = 0
-    for i in range (0, K): # for each color
+    for i in range (0, K):
         j = i + 1
         while j < K:
             if geom_distances[i][j] != 0:
                 if color_distances[i][j] == 0:
                     color_distances[i][j] = numpy.linalg.norm(numpy.array(indiv[i]) - numpy.array(indiv[j]))
-                    # color_distances[j][i] = color_distances[i][j]
                 res += color_distances[i][j] / geom_distances[i][j]
             j += 1      
     return res,
@@ -99,18 +111,46 @@ def _mutation(indiv, indpb):
             indiv[selected_class] = randcolor_oRGB()
     return indiv,
 
-def _values_params():
-    mating_mutation_prob = 0.7
-    mutation_prob = 0.1
-    tournsize = 3
-    mating_prob = 0.5
-    TAM_POPULATION = 10
-    NGEN = 20
+def _values_params(mode, NGEN, TAM_POPULATION, mating_prob,  mating_mutation_prob,
+    mutation_prob, tournsize):
 
-    return (mutation_prob, tournsize, mating_prob, mating_mutation_prob, NGEN, TAM_POPULATION)
+    _mating_mutation_prob = 0.7
+    _mutation_prob = 0.1
+    _tournsize = 3
+    _mating_prob = 0.5
+    _TAM_POPULATION = 10
+    _NGEN = 20
+    _use_time = True
 
-def generate(x, y, points_classes, verbose=False, return_fitness_solution = False,
-    return_evolution_data=False, NGEN=None):
+    if mode == 'custom':
+        _NGEN = NGEN
+        _TAM_POPULATION = TAM_POPULATION
+        _mating_mutation_prob = mating_mutation_prob
+        _mutation_prob = mutation_prob
+        _tournsize = tournsize
+        _mating_prob = mating_prob
+        _use_time = False
+
+    if mode == 'optimized':
+        _NGEN = 300
+        _use_time = False
+
+    print(_NGEN, _TAM_POPULATION, _mating_prob, _mating_mutation_prob, _mutation_prob, _tournsize, _use_time)       
+
+    return (_NGEN, _TAM_POPULATION, _mating_prob, _mating_mutation_prob, _mutation_prob, _tournsize, _use_time)
+
+def generate(x, y, points_classes,
+    mode = 'fast',
+    verbose = False,
+    return_fitness_solution = False,
+    return_evolution_data = False,
+    NGEN = 20,
+    TAM_POPULATION = 10,
+    mating_prob = 0.5,
+    mating_mutation_prob = 0.7,
+    mutation_prob = 0.1,
+    tournsize = 3):
+    
     classes = list(OrderedDict.fromkeys(points_classes))
     points_classes = numpy.array([classes.index(i) for i in points_classes])
     points = numpy.array(list(zip(x,y)))
@@ -122,7 +162,7 @@ def generate(x, y, points_classes, verbose=False, return_fitness_solution = Fals
     K = len(classes)
 
     if K == 1:
-        return randcolor_RGB
+        return randcolor_RGB()
 
     distances = _distances
     objective = _objective_norm
@@ -130,10 +170,8 @@ def generate(x, y, points_classes, verbose=False, return_fitness_solution = Fals
         distances = _distances_centroid
         objective = _objective_cent
 
-    mutation_prob, tournsize, mating_prob, mating_mutation_prob, NGEN_default, TAM_POPULATION = _values_params()
-
-    if NGEN is None:
-        NGEN = NGEN_default
+    NGEN, TAM_POPULATION, mating_prob,  mating_mutation_prob, mutation_prob, tournsize, use_time = _values_params(mode,
+        NGEN, TAM_POPULATION, mating_prob,  mating_mutation_prob, mutation_prob, tournsize)
 
     # Configuration for optimization - maximization
     creator.create('FitnessMax', base.Fitness, weights=(1.0,))
@@ -165,7 +203,7 @@ def generate(x, y, points_classes, verbose=False, return_fitness_solution = Fals
 
     start_time = time()
 
-    while time() - start_time < 2.5 or gen < MIN_GEN:
+    while (use_time and (time() - start_time < 2.5 or gen < MIN_GEN)) or (not use_time and gen < MIN_GEN):
         offspring = algorithms.varAnd(population, toolbox, cxpb=mating_prob, 
             mutpb=mating_mutation_prob)
         fits = toolbox.map(toolbox.evaluate, offspring)

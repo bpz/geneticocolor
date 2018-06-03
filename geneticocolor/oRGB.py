@@ -104,25 +104,25 @@ class Converter:
         return numpy.matrix([[math.cos(a), -math.sin(a)],
             [math.sin(a), math.cos(a)]])
 
-converter = Converter()
+_converter = Converter()
 
 def sRGB_to_RGB(sR,sG,sB):
-    return converter.sRGB_to_RGB(sR,sG,sB)
+    return _converter.sRGB_to_RGB(sR,sG,sB)
 
 def RGB_to_sRGB(R,G,B):
-    converter.RGB_to_sRGB(R,G,B)
+    _converter.RGB_to_sRGB(R,G,B)
 
 def RGB_to_oRGB(R,G,B):
-    return converter.RGB_to_oRGB(R,G,B)
+    return _converter.RGB_to_oRGB(R,G,B)
 
 def oRGB_to_RGB(L,CYB,CRG):
-    return converter.oRGB_to_RGB(L,CYB,CRG)
+    return _converter.oRGB_to_RGB(L,CYB,CRG)
 
 def sRGB_to_oRGB(sR,sG,sB):
-    return converter.sRGB_to_oRGB(sR,sG,sB)
+    return _converter.sRGB_to_oRGB(sR,sG,sB)
 
 def oRGB_to_sRGB(L,CYB,CRG):
-    return converter.oRGB_to_sRGB(L,CYB,CRG)
+    return _converter.oRGB_to_sRGB(L,CYB,CRG)
 
 def randcolor_RGB():
     import random
