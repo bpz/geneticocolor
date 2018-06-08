@@ -3,8 +3,21 @@ import numpy
 import random
 
 """
-Color conversion from RGB/sRGB to oRGB and vice versa.
-Random RGB/oRGB generation
+oRGB
+====
+Color conversion between RGB, sRGB and oRGB, and also RGB and oRGB random generation.
+Conversion functions
+--------------------
+    sRGB_to_RGB(sR,sG,sB)
+    sRGB_to_oRGB(sR,sG,sB)
+    RGB_to_sRGB(R,G,B)
+    RGB_to_oRGB(R,G,B)
+    oRGB_to_RGB(L,CYB,CRG)
+    oRGB_to_sRGB(L,CYB,CRG)
+Random Color Generation
+-----------------------
+    randcolor_RGB()
+    randcolor_oRGB()
 """
 
 class Converter:
