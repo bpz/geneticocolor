@@ -1,26 +1,29 @@
+"""
+oRGB
+====
+
+Color conversion between RGB, sRGB and oRGB and also RGB and oRGB random generation.
+
+Converting colors
+-----------------
+sRGB_to_RGB(sR,sG,sB)
+RGB_to_sRGB(R,G,B)
+RGB_to_oRGB(R,G,B)
+oRGB_to_RGB(oR,oG,oB)
+sRGB_to_oRGB(sR,sG,sB)
+oRGB_to_sRGB(oR,oG,oB)
+
+Random color generation
+-----------------------
+randcolor_RGB()
+randcolor_oRGB()
+"""
+
 import math
 import numpy
 import random
 
-"""
-oRGB
-====
-Color conversion between RGB, sRGB and oRGB, and also RGB and oRGB random generation.
-Conversion functions
---------------------
-    sRGB_to_RGB(sR,sG,sB)
-    sRGB_to_oRGB(sR,sG,sB)
-    RGB_to_sRGB(R,G,B)
-    RGB_to_oRGB(R,G,B)
-    oRGB_to_RGB(L,CYB,CRG)
-    oRGB_to_sRGB(L,CYB,CRG)
-Random Color Generation
------------------------
-    randcolor_RGB()
-    randcolor_oRGB()
-"""
-
-class Converter:
+class _Converter:
     """Convert colors from RGB/sRGB to oRGB and vice versa""" 
     _matrix_to_LCC = 0.0
     _matrix_to_sRGB = 0.0
@@ -117,37 +120,137 @@ class Converter:
         return numpy.matrix([[math.cos(a), -math.sin(a)],
             [math.sin(a), math.cos(a)]])
 
-_converter = Converter()
+_converter = _Converter()
 
 def sRGB_to_RGB(sR,sG,sB):
     """ Convert sRGB color into RGB color.
+
     Parameterss
     -----------
     sR : float
-        R component of the color in float value inside interval [0-1]
+        R component of the color as a float inside interval [0-1]
     sG : float
-        G component of the color in float value inside interval [0-1]
+        G component of the color as a float inside interval [0-1]
     sB : float
-        B component of the color in float value inside interval [0-1]        
+        B component of the color as a float inside interval [0-1]        
+
+    Returns
+    -------
+    list : [R, G, B]
+        A list with three elements, wich represents a color in RGB format.
+        Elements are float values inside interval [0-1].
     """
     return _converter.sRGB_to_RGB(sR,sG,sB)
 
 def RGB_to_sRGB(R,G,B):
+    """ Convert RGB color into sRGB color.
+
+    Parameterss
+    -----------
+    R : float
+        R component of the color as a float inside interval [0-1]
+    G : float
+        G component of the color as a float inside interval [0-1]
+    B : float
+        B component of the color as a float inside interval [0-1]        
+
+    Returns
+    -------
+    list : [sR, sG, sB]
+        A list with three elements, wich represents a color in standard RGB format.
+        Elements are float values inside interval [0-1].
+    """
     _converter.RGB_to_sRGB(R,G,B)
 
 def RGB_to_oRGB(R,G,B):
+    """ Convert RGB color into oRGB color.
+
+    Parameterss
+    -----------
+    R : float
+        R component of the color as a float inside interval [0-1]
+    G : float
+        G component of the color as a float inside interval [0-1]
+    B : float
+        B component of the color as a float inside interval [0-1]        
+
+    Returns
+    -------
+    list : [oR, oG, oB]
+        A list with three elements, wich represents a color in oRGB format.
+        Elements are float values inside interval [0-1].
+    """
     return _converter.RGB_to_oRGB(R,G,B)
 
-def oRGB_to_RGB(L,CYB,CRG):
-    return _converter.oRGB_to_RGB(L,CYB,CRG)
+def oRGB_to_RGB(oR,oG,oB):
+    """ Convert oRGB color into RGB color.
+
+    Parameterss
+    -----------
+    oR : float
+        R component of the color as a float inside interval [0-1]
+    oG : float
+        G component of the color as a float inside interval [0-1]
+    oB : float
+        B component of the color as a float inside interval [0-1]        
+
+    Returns
+    -------
+    list : [R, G, B]
+        A list with three elements, wich represents a color in oRGB format.
+        Elements are float values inside interval [0-1].
+    """
+    return _converter.oRGB_to_RGB(oR,oG,oB)
 
 def sRGB_to_oRGB(sR,sG,sB):
+    """ Convert sRGB color into oRGB color.
+
+    Parameterss
+    -----------
+    sR : float
+        R component of the color as a float inside interval [0-1]
+    sG : float
+        G component of the color as a float inside interval [0-1]
+    sB : float
+        B component of the color as a float inside interval [0-1]        
+
+    Returns
+    -------
+    list : [oR, oG, oB]
+        A list with three elements, wich represents a color in oRGB format.
+        Elements are float values inside interval [0-1].
+    """
     return _converter.sRGB_to_oRGB(sR,sG,sB)
 
-def oRGB_to_sRGB(L,CYB,CRG):
-    return _converter.oRGB_to_sRGB(L,CYB,CRG)
+def oRGB_to_sRGB(oR,oG,oB):
+    """ Convert oRGB color into sRGB color.
+
+    Parameterss
+    -----------
+    oR : float
+        R component of the color as a float inside interval [0-1]
+    oG : float
+        G component of the color as a float inside interval [0-1]
+    oB : float
+        B component of the color as a float inside interval [0-1]        
+
+    Returns
+    -------
+    list : [sR, sG, sB]
+        A list with three elements, wich represents a color in sRGB format.
+        Elements are float values inside interval [0-1].
+    """
+    return _converter.oRGB_to_sRGB(oR,oG,oB)
 
 def randcolor_RGB():
+    """ Generate a random color in RGB color space.
+
+    Returns
+    -------
+    list : [R, G, B]
+        A list with three elements, wich represents a color in RGB format.
+        Elements are float values inside interval [0-1].
+    """
     import random
     R = random.random()
     G = random.random()
@@ -155,7 +258,13 @@ def randcolor_RGB():
     return[R,G,B]
 
 def randcolor_oRGB():
-    R, G, B = randcolor_RGB()
-    oRGB = RGB_to_oRGB(R,G,B)
-    return oRGB
+    """ Generate a random color in oRGB color space.
 
+    Returns
+    -------
+    list : [oR, oG, oB]
+        A list with three elements, wich represents a color in RGB format.
+        Elements are float values inside interval [0-1].
+    """
+    R, G, B = randcolor_RGB()
+    return RGB_to_oRGB(R,G,B)
