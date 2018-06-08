@@ -13,8 +13,8 @@ Once installed, you can import and use the library in any python file.
 import geneticocolor.color_generator as generator
 import matplotlib.pyplot as plt
 
-colors = generator.generate(x,y,point_classes)
-plt.scatter(x,y,colors)
+colors = generator.generate(x, y, point_classes)
+plt.scatter(x, y, colors)
 
 ```
 ## More about the implementantion
