@@ -120,6 +120,16 @@ class Converter:
 _converter = Converter()
 
 def sRGB_to_RGB(sR,sG,sB):
+    """ Convert sRGB color into RGB color.
+    Parameterss
+    -----------
+    sR : float
+        R component of the color in float value inside interval [0-1]
+    sG : float
+        G component of the color in float value inside interval [0-1]
+    sB : float
+        B component of the color in float value inside interval [0-1]        
+    """
     return _converter.sRGB_to_RGB(sR,sG,sB)
 
 def RGB_to_sRGB(R,G,B):
