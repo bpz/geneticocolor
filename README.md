@@ -5,7 +5,7 @@ Geneticocolor is a python package for color sets generation.
 ## Install
 Using shell just write the following line:
 ```
-$ pip install networkx
+$ pip install geneticocolor
 ```
 ## How to use
 Once installed, you can import and use the library in any python file.
