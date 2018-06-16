@@ -9,12 +9,10 @@ import numpy
 Esto es un comentario de prueba
 """
 
-def _centeroid(pointArray):
+def _centroid(pointArray):
     length = pointArray.shape[0]
-    sum_x = numpy.sum(pointArray[:, 0])
-    sum_y = numpy.sum(pointArray[:, 1])
-    res = numpy.array([sum_x/length, sum_y/length])
-    return res
+    size = pointArray.shape[1]
+    return numpy.array([sum(pointArray[:,i])/length for i in range(0,size)])
 
 def _distances_centroid(N, K, points, points_classes):
     geom_distances = numpy.zeros([K,K])
@@ -22,7 +20,7 @@ def _distances_centroid(N, K, points, points_classes):
     std_d = [0] * K
     for i in range (0, K):
         points_i = [points[index] for index in range(0,N) if points_classes[index] == i]
-        centroids[i] = _centeroid(numpy.array(points_i))
+        centroids[i] = _centroid(numpy.array(points_i))
         std_d[i] = numpy.std(numpy.array(points_i))
     print (std_d)
     for i in range (0, K):
