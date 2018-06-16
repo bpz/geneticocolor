@@ -1,9 +1,0 @@
-README.md
-setup.py
-geneticocolor/__init__.py
-geneticocolor/color_generator.py
-geneticocolor/oRGB.py
-geneticocolor.egg-info/PKG-INFO
-geneticocolor.egg-info/SOURCES.txt
-geneticocolor.egg-info/dependency_links.txt
-geneticocolor.egg-info/top_level.txt
